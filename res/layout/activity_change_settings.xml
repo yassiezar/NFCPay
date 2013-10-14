@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:orientation="vertical"
+    tools:context=".ChangeSettings" 			>
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Change your user settings here."
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center_horizontal" />
+    
+    <TextView 
+        android:text="Name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+    <EditText 
+        android:id="@+id/name_text_change"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"					/>
+    
+    <TextView 
+        android:text="Age"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+    <EditText 
+        android:id="@+id/age_text_change"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Age"
+        android:inputType="number"					/>
+    
+    <TextView 
+        android:text="Password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+    <EditText 
+        android:id="@+id/password_text_change"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"	/>
+    
+    <Button
+        android:id="@+id/next_screen_button"
+        android:text="Continue"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"	/>
+    
+    <Button 
+        android:id="@+id/read_database_change"
+        android:text="Read database [DEBUGGING]"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
+    
+    <Button 
+        android:id="@+id/save_data_change"
+        android:text="Save the data [DEBUGGING]"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
+    
+    <Button 
+        android:id="@+id/delete_data"
+        android:text="Delete the data [DEBUGGING]"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
+
+</LinearLayout>

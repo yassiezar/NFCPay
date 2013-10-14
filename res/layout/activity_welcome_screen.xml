@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:orientation="vertical"
+    tools:context=".WelcomeScreen" 			>
+	
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome! Please enter your details below" 
+        android:id="@+id/welcome_text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center_horizontal"		/>
+    
+    <TextView 
+        android:text="Name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+    <EditText 
+        android:id="@+id/name_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"					/>
+    
+    <TextView 
+        android:text="Age"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+    <EditText 
+        android:id="@+id/age_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Age"
+        android:inputType="number"					/>
+    
+    <TextView 
+        android:text="Password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+    <EditText 
+        android:id="@+id/password_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"	/>
+    
+    <CheckBox android:id="@+id/new_user_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Are you a new user?"
+        android:onClick="onCheckboxClicked"/>
+    
+    <Button
+        android:id="@+id/next_screen_button"
+        android:text="Continue"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"	/>
+    
+    <Button 
+        android:id="@+id/read_database"
+        android:text="Read database"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
+
+</LinearLayout>
