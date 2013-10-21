@@ -48,7 +48,6 @@ public class WelcomeScreen extends Activity implements OnClickListener
 	private TextView textView;
 	
 	private EditText nameText;
-	private EditText ageText;
 	private EditText passText;
 	
 	private CheckBox newUserCheckbox;
@@ -56,8 +55,6 @@ public class WelcomeScreen extends Activity implements OnClickListener
 	private boolean newUserChecked = false;
 	
 	private SQLiteDatabase myDatabase;
-	
-	//private boolean writtenBefore = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -68,12 +65,8 @@ public class WelcomeScreen extends Activity implements OnClickListener
 		nextButton = (Button)findViewById(R.id.next_screen_button);
 		nextButton.setOnClickListener(this);
 		
-		readDb = (Button)findViewById(R.id.read_database);
-		readDb.setOnClickListener(this);
-		
 		textView = (TextView)findViewById(R.id.welcome_text);
 		
-		ageText = (EditText)findViewById(R.id.age_text);
 		nameText = (EditText)findViewById(R.id.name_text);
 		passText = (EditText)findViewById(R.id.password_text);
 		
@@ -92,12 +85,12 @@ public class WelcomeScreen extends Activity implements OnClickListener
 		
 		else
 		{
-//			readUserData();
+			readUserData();
 			
 			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 			
-			//finish();
+			finish();
 		}
 	}
 	
@@ -131,8 +124,6 @@ public class WelcomeScreen extends Activity implements OnClickListener
 		     + tableName
 		     + " (NameField, PassField, AgeField)"
 		     + " VALUES (' ', ' ', 0);");
-    		
-    		Toast.makeText(this, "Database created.", Toast.LENGTH_SHORT).show();
     	}
     	
     	catch(Exception e)
@@ -149,27 +140,17 @@ public class WelcomeScreen extends Activity implements OnClickListener
 	public boolean saveUserData()
 	{
 		String TableName = "userTable";
-		int userAge = 0;
 		String userName = null;
 		String userPass = null;
 		
 		try
 		{
-			//myDatabase = this.openOrCreateDatabase("UserDatabase", MODE_PRIVATE, null);
-			
 			userName = nameText.getText().toString();
-			userAge = Integer.parseInt(ageText.getText().toString());
 			userPass = passText.getText().toString();
 			
 			if(userName == null)
 			{
 				Toast.makeText(this, "Invalid username", Toast.LENGTH_SHORT).show();
-				return false;
-			}
-			
-			if(userAge == 0)
-			{
-				Toast.makeText(this, "Invalid age", Toast.LENGTH_SHORT).show();
 				return false;
 			}
 			
@@ -179,13 +160,8 @@ public class WelcomeScreen extends Activity implements OnClickListener
 				return false;
 			}
 			
-			/*myDatabase.execSQL("INSERT INTO "
-		     + TableName
-		     + " (NameField, PassField, AgeField)"
-		     + " VALUES ('" + userName + "', '" + userPass + "', " + userAge + ");");*/
-			
 			myDatabase.execSQL("UPDATE " + TableName
-			 + " SET NameField='" + userName + "', PassField='" + userPass + "', AgeField=" + userAge + ";");
+			 + " SET NameField='" + userName + "', PassField='" + userPass + "';");
 			
 			((GlobalVar) this.getApplication()).setUserName(userName);
 			((GlobalVar) this.getApplication()).setUserPassword(userPass);
@@ -209,7 +185,6 @@ public class WelcomeScreen extends Activity implements OnClickListener
 	public void readUserData()
 	{
 		String TableName = "userTable";
-		//int userAge = 0;
 		String userName = null;
 		String userPass = null;
 		String data = "";
@@ -222,25 +197,22 @@ public class WelcomeScreen extends Activity implements OnClickListener
 			
 			int Column1 = c.getColumnIndex("NameField");
 			int Column2 = c.getColumnIndex("PassField");
-			//int Column3 = c.getColumnIndex("AgeField");
 			
 			c.moveToFirst();
 
 			if (c != null)
 			{
 				do
-				{//Toast.makeText(this, "I am here", Toast.LENGTH_SHORT).show();
+				{
 					userName = c.getString(Column1);
 				    userPass = c.getString(Column2);
-				    data = data + userPass + "/" + userName + "\n"; //"/" + Integer.toString(userAge) + 
+				    data = data + userPass + "/" + userName + "\n";
 				}
 				while(c.moveToNext());
 			}
 			
 			((GlobalVar) this.getApplication()).setUserName(userName);
 			((GlobalVar) this.getApplication()).setUserPassword(userPass);
-			
-			//Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
 		}
 		
 		catch(Exception e)
@@ -265,7 +237,6 @@ public class WelcomeScreen extends Activity implements OnClickListener
 			{
 				try
 				{
-					//new DownloadWebpageTask().execute("http://ec2-54-213-127-119.us-west-2.compute.amazonaws.com/add_nfc_user/?user=" + encrypt_rsa(nameText.getText().toString()) + "&password=" + encrypt_rsa(passText.getText().toString()) + "&email=");
 					new DownloadWebpageTask().execute("http://ec2-54-213-127-119.us-west-2.compute.amazonaws.com/add_nfc_user/?username=" + "awe2" + "&password=" + "meme" + "&email=");
 				}
 				
@@ -282,14 +253,6 @@ public class WelcomeScreen extends Activity implements OnClickListener
 			}
 			
 			saveUserData();
-			
-			//Intent intent = new Intent(this, MainActivity.class);
-			//startActivity(intent);
-		}
-		
-		if(view.getId() == R.id.read_database)
-		{
-			readUserData();
 		}
 	}
 	
@@ -314,21 +277,7 @@ public class WelcomeScreen extends Activity implements OnClickListener
         @Override
         protected void onPostExecute(String result) 
         {
-        	//mNote.setVisibility(View.GONE);
-        	//mTextView.setText("Please swipe your phone across the receiver.");
         	textView.setText(result);
-
-//        	if(result.equals("1"))
-//        	{
-//                mTextView.setText("Your transation has been approved. Please swipe your phone across the NFC receiver.");
-//        		mNote.setText("1");			//verander hier
-//        	}
-//        	
-//        	else
-//        	{
-//        		mTextView.setText("You don't have enough money. Please load some more on at this adress: http://ec2-54-213-127-119.us-west-2.compute.amazonaws.com/user_admin");
-//        		mNote.setText("0");
-//        	}
         }
         
         private String downloadUrl(String myurl) throws IOException 

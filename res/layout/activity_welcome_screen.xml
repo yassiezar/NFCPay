@@ -25,18 +25,6 @@
         android:hint="Name"					/>
     
     <TextView 
-        android:text="Age"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
-    
-    <EditText 
-        android:id="@+id/age_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Age"
-        android:inputType="number"					/>
-    
-    <TextView 
         android:text="Password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
@@ -59,11 +47,5 @@
         android:text="Continue"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"	/>
-    
-    <Button 
-        android:id="@+id/read_database"
-        android:text="Read database"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"/>
 
 </LinearLayout>

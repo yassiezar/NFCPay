@@ -14,12 +14,8 @@ import android.widget.Toast;
 public class ChangeSettings extends Activity implements OnClickListener
 {
 	private Button nextScreen;
-	private Button readDatabase;
-	private Button deleteDatabase;
-	private Button saveData;
 	
 	private EditText nameText;
-	private EditText ageText;
 	private EditText passText;
 	
 	private SQLiteDatabase myDatabase;
@@ -35,17 +31,7 @@ public class ChangeSettings extends Activity implements OnClickListener
 		nextScreen = (Button)findViewById(R.id.next_screen_button);
 		nextScreen.setOnClickListener(this);
 		
-		readDatabase = (Button)findViewById(R.id.read_database_change);
-		readDatabase.setOnClickListener(this);
-		
-		saveData = (Button)findViewById(R.id.save_data_change);
-		saveData.setOnClickListener(this);
-		
-		deleteDatabase = (Button)findViewById(R.id.delete_data);
-		deleteDatabase.setOnClickListener(this);
-		
 		nameText = (EditText)findViewById(R.id.name_text_change);
-		ageText = (EditText)findViewById(R.id.age_text_change);
 		passText = (EditText)findViewById(R.id.password_text_change);
 	}
 	
@@ -53,25 +39,13 @@ public class ChangeSettings extends Activity implements OnClickListener
 	{
 		if(view.getId() == R.id.next_screen_button)
 		{
+			deleteDatabase();
+			saveData();
+			
 			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 			
 			finish();
-		}
-		
-		if(view.getId() == R.id.read_database_change)
-		{
-			readUserData();
-		}
-		
-		if(view.getId() == R.id.delete_data)
-		{
-			deleteDatabase();
-		}
-		
-		if(view.getId() == R.id.save_data_change)
-		{
-			saveData();
 		}
 	}
 	
@@ -87,18 +61,11 @@ public class ChangeSettings extends Activity implements OnClickListener
 			myDatabase = this.openOrCreateDatabase("UserDatabase", MODE_PRIVATE, null);
 			
 			userName = nameText.getText().toString();
-			userAge = Integer.parseInt(ageText.getText().toString());
 			userPass = passText.getText().toString();
 			
 			if(userName == null)
 			{
 				Toast.makeText(this, "Invalid username", Toast.LENGTH_SHORT).show();
-				return false;
-			}
-			
-			if(userAge == 0)
-			{
-				Toast.makeText(this, "Invalid age", Toast.LENGTH_SHORT).show();
 				return false;
 			}
 			
@@ -110,16 +77,11 @@ public class ChangeSettings extends Activity implements OnClickListener
 			
 			myDatabase.execSQL("INSERT INTO "
 		     + TableName
-		     + " (NameField, PassField, AgeField)"
-		     + " VALUES ('" + userName + "', '" + userPass + "', " + userAge + ");");
+		     + " (NameField, PassField)"
+		     + " VALUES ('" + userName + "', '" + userPass + "');");
 			
-			//myDatabase.execSQL("UPDATE " + TableName
-			 //+ " SET NameField='" + userName + "', PassField='" + userPass + "', AgeField=" + userAge + ";");
-			//Toast.makeText(this, "I am here", Toast.LENGTH_SHORT).show();
 			((GlobalVar) this.getApplication()).setUserName(userName);
 			((GlobalVar) this.getApplication()).setUserPassword(userPass);
-			
-			//Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
 		}
 		
 		catch(Exception e)
@@ -145,7 +107,6 @@ public class ChangeSettings extends Activity implements OnClickListener
 	public void readUserData()
 	{
 		String TableName = "userTable";
-		//int userAge = 0;
 		String userName = null;
 		String userPass = null;
 		String data = "";
@@ -158,17 +119,16 @@ public class ChangeSettings extends Activity implements OnClickListener
 			
 			int Column1 = c.getColumnIndex("NameField");
 			int Column2 = c.getColumnIndex("PassField");
-			//int Column3 = c.getColumnIndex("AgeField");
 			
 			c.moveToFirst();
 
 			if (c != null)
 			{
 				do
-				{//Toast.makeText(this, "I am here", Toast.LENGTH_SHORT).show();
+				{
 					userName = c.getString(Column1);
 				    userPass = c.getString(Column2);
-				    data = data + userPass + "/" + userName + "\n"; //"/" + Integer.toString(userAge) + 
+				    data = data + userPass + "/" + userName + "\n";
 				}
 				while(c.moveToNext());
 			}

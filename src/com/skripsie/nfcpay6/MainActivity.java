@@ -44,7 +44,6 @@ import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -90,20 +89,18 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
         
         findViewById(R.id.coke_button).setOnClickListener(mTagWriter);
-        findViewById(R.id.choc_button).setOnClickListener(mTagWriter);
         findViewById(R.id.lays_button).setOnClickListener(mTagWriter);
         
         mNote = ((TextView) findViewById(R.id.edit_text));
-        //mNote.setVisibility(View.GONE);
+        mNote.setVisibility(View.GONE);
         mNote.addTextChangedListener(mTextWatcher);
         
         mTextView = (TextView)findViewById(R.id.text_view);
-        mTextView.setText("Please select your favourite weakness.");
+        mTextView.setText("Please select your desired product.");
         
         //Get user login details
         userName = ((GlobalVar) this.getApplication()).getUserName();
         userPass = ((GlobalVar) this.getApplication()).getUserPassword();
-        //Toast.makeText(this, userPass, Toast.LENGTH_SHORT).show();
 
         // Handle all of our received NFC intents in this activity.
         mNfcPendingIntent = PendingIntent.getActivity(this, 0,
@@ -148,13 +145,6 @@ public class MainActivity extends Activity
     @Override
     protected void onNewIntent(Intent intent) 
     {
-        // NDEF exchange mode
-        /*if (!mWriteMode && NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) 
-        {
-            //NdefMessage[] msgs = getNdefMessages(intent);
-            //promptForContent(msgs[0]);
-        }*/
-
         // Tag writing mode
         if (mWriteMode && NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) 
         {
@@ -214,27 +204,22 @@ public class MainActivity extends Activity
 	            {
 	            	prod_code = "233C";
 	            }
-	            
-	            if(arg0.getId() == R.id.choc_button)
-	            {
-	            	prod_code = "4FF1";
-	            }
 	            	
 	            try
             	{
 	            	new DownloadWebpageTask().execute("http://ec2-54-213-127-119.us-west-2.compute.amazonaws.com/nfc/?user=" + encrypt_rsa(userName) + "&password=" + encrypt_rsa(userPass) + "&product=" + encrypt_rsa(prod_code));
-            		mNote.setText("Contacting server...");
+            		mTextView.setText("Contacting server...");
             	}
             	
             	catch(Exception e)
             	{
-            		mNote.setText("fail");
+            		mTextView.setText("Error. Please check your username and password settings.");
             	}
 	        }
 			
 			else
 			{
-				mNote.setText("No network");
+				mTextView.setText("No network available. ");
 			}
         }
     };
@@ -268,12 +253,6 @@ public class MainActivity extends Activity
         
         mNote.setText("");
     }
-
-/*    private void disableTagWriteMode() 
-    {
-        mWriteMode = false;
-        mNfcAdapter.disableForegroundDispatch(this);
-    }*/
 
     boolean writeTag(NdefMessage message, Tag tag) 
     {
@@ -364,21 +343,9 @@ public class MainActivity extends Activity
         @Override
         protected void onPostExecute(String result) 
         {
-        	//mNote.setVisibility(View.GONE);
-        	mTextView.setText("Please swipe your phone across the receiver.");
+        	mTextView.setText("Transaction processed. Please tap your phone against the NFC receiever.");        		
+        	
         	mNote.setText(result);
-
-//        	if(result.equals("1"))
-//        	{
-//                mTextView.setText("Your transation has been approved. Please swipe your phone across the NFC receiver.");
-//        		mNote.setText("1");			//verander hier
-//        	}
-//        	
-//        	else
-//        	{
-//        		mTextView.setText("You don't have enough money. Please load some more on at this adress: http://ec2-54-213-127-119.us-west-2.compute.amazonaws.com/user_admin");
-//        		mNote.setText("0");
-//        	}
         }
         
         private String downloadUrl(String myurl) throws IOException 

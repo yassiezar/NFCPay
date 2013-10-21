@@ -7,19 +7,13 @@
     
     <Button 
         android:id="@+id/coke_button"
-        android:text="Coke"
+        android:text="Fritos (Tomato)"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"	/>
     
     <Button 
         android:id="@+id/lays_button"
-        android:text="Lays"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"	/>
-    
-    <Button 
-        android:id="@+id/choc_button"
-        android:text="Chocolate"
+        android:text="Fritos (Sweet Chilli)"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"	/>
     
